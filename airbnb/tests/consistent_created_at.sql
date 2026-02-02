@@ -1,3 +1,4 @@
-select * from {{ref('fct_reviews') }} a
-join {{ref('dim_listings_cleansed') }} b on a.listing_id =b.listing_id
-where a.review_date < b.created_at
+SELECT * FROM {{ ref('dim_listings_cleansed') }} l
+INNER JOIN {{ ref('fct_reviews') }} r
+USING (listing_id)
+WHERE l.created_at > r.review_date
