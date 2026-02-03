@@ -1,7 +1,14 @@
 models:
   - name: dim_listings_cleansed
-    columns:
+    description: Cleansed table which contains Airbnb listings.
+    data_tests:
+      - minimum_row_count:
+          arguments:
+            min_row_count: 1000
+          severity: error
 
+    columns:
+    
      - name: listing_id
        data_tests:
          - unique
@@ -19,7 +26,24 @@ models:
        data_tests:
          - accepted_values:
              arguments:
-               values: ['Entire home/apt',
-                        'Private room',
-                        'Shared room',
-                        'Hotel room']
+               values: ['Entire home/apt','Private room','Shared room','Hotel room']
+
+     - name: minimum_nights
+       data_tests:
+          - positive_values
+  
+  - name: dim_hosts_cleansed
+    config:
+        contract:
+          enforced: true
+    columns:
+      - name: host_id
+        data_type: integer
+      - name: host_name
+        data_type: string
+      - name: is_superhost
+        data_type: string
+      - name: updated_at
+        data_type: timestamp
+      - name: created_at
+        data_type: timestamp
